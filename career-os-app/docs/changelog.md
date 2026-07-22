@@ -1,4 +1,3 @@
-
 # CareerOS Changelog
 
 ## v0.1.0 - Initial Foundation
@@ -31,3 +30,11 @@
 - Dashboard Analytics
 - Supabase Integration
 - AI Mentor
+- 
+
+## v0.2.0
+
+### Added
+
+- Dynamic roadmap details route
+- Clickable roadmap cards
