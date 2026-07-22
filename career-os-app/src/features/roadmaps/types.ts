@@ -3,4 +3,5 @@ export interface Roadmap {
   title: string;
   description: string;
   progress: number;
+  createdAt: string;
 }
