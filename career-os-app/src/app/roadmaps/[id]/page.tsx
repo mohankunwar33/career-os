@@ -1,21 +1,18 @@
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
+import RoadmapOverview from "@/features/roadmaps/components/RoadmapOverview";
 
-export default async function RoadmapDetails({ params }: PageProps) {
+export default function RoadmapDetails() {
+  const roadmap = {
+    id: "1",
+    title: "AI Engineer",
+    description:
+      "Become an AI Engineer from beginner to advanced.",
+    progress: 40,
+    createdAt: new Date().toISOString(),
+  };
+
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">
-        Roadmap Details
-      </h1>
-
-      <p>Roadmap ID:</p>
-
-      <div className="rounded-lg border p-4">
-        {params.id}
-      </div>
+      <RoadmapOverview roadmap={roadmap} />
     </div>
   );
 }
