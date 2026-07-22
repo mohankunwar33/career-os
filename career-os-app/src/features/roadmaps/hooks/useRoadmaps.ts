@@ -10,14 +10,15 @@ export function useRoadmaps() {
   const [roadmaps, setRoadmaps] = useState<Roadmap[]>([]);
 
   useEffect(() => {
-    const stored = loadRoadmaps();
+    const storedRoadmaps = loadRoadmaps();
 
-    if (stored.length === 0) {
+    if (storedRoadmaps.length === 0) {
       setRoadmaps(mockRoadmaps);
       saveRoadmaps(mockRoadmaps);
-    } else {
-      setRoadmaps(stored);
+      return;
     }
+
+    setRoadmaps(storedRoadmaps);
   }, []);
 
   function addRoadmap(title: string, description: string) {
@@ -29,14 +30,44 @@ export function useRoadmaps() {
       createdAt: new Date().toISOString(),
     };
 
-    const updated = [...roadmaps, newRoadmap];
+    const updatedRoadmaps = [...roadmaps, newRoadmap];
 
-    setRoadmaps(updated);
-    saveRoadmaps(updated);
+    setRoadmaps(updatedRoadmaps);
+    saveRoadmaps(updatedRoadmaps);
+  }
+
+  function updateRoadmap(
+    id: string,
+    title: string,
+    description: string
+  ) {
+    const updatedRoadmaps = roadmaps.map((roadmap) =>
+      roadmap.id === id
+        ? {
+            ...roadmap,
+            title,
+            description,
+          }
+        : roadmap
+    );
+
+    setRoadmaps(updatedRoadmaps);
+    saveRoadmaps(updatedRoadmaps);
+  }
+
+  function deleteRoadmap(id: string) {
+    const updatedRoadmaps = roadmaps.filter(
+      (roadmap) => roadmap.id !== id
+    );
+
+    setRoadmaps(updatedRoadmaps);
+    saveRoadmaps(updatedRoadmaps);
   }
 
   return {
     roadmaps,
     addRoadmap,
+    updateRoadmap,
+    deleteRoadmap,
   };
 }

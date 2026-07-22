@@ -6,7 +6,12 @@ import { RoadmapCard } from "@/features/roadmaps/components/RoadmapCard";
 import { useRoadmaps } from "@/features/roadmaps/hooks/useRoadmaps";
 
 export default function RoadmapsPage() {
-  const { roadmaps, addRoadmap } = useRoadmaps();
+  const {
+  roadmaps,
+  addRoadmap,
+  updateRoadmap,
+  deleteRoadmap,
+} = useRoadmaps();
 
   return (
     <AppShell>
@@ -32,11 +37,16 @@ export default function RoadmapsPage() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {roadmaps.map((roadmap) => (
-              <RoadmapCard key={roadmap.id} roadmap={roadmap} />
-            ))}
-          </div>
+<div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+  {roadmaps.map((roadmap) => (
+    <RoadmapCard
+      key={roadmap.id}
+      roadmap={roadmap}
+      onUpdate={updateRoadmap}
+      onDelete={deleteRoadmap}
+    />
+  ))}
+</div>
         )}
       </div>
     </AppShell>
