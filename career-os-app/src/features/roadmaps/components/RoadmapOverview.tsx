@@ -1,10 +1,4 @@
-type Roadmap = {
-  id: string;
-  title: string;
-  description: string;
-  progress: number;
-  createdAt: string;
-};
+import { Roadmap } from "../types";
 
 interface RoadmapOverviewProps {
   roadmap: Roadmap;
