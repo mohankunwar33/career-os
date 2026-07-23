@@ -10,10 +10,7 @@ interface Props {
 }
 
 export default function RoadmapDetailsClient({ id }: Props) {
-  const roadmap = useMemo(() => {
-    const roadmaps = loadRoadmaps();
-    return roadmaps.find((r) => r.id === id);
-  }, [id]);
+  const roadmap = useMemo(() => getRoadmapById(id), [id]);
 
   if (!roadmap) {
     return (
