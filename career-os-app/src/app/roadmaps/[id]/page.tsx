@@ -1,18 +1,17 @@
-import RoadmapOverview from "@/features/roadmaps/components/RoadmapOverview";
+import RoadmapDetailsClient from "@/features/roadmaps/components/RoadmapDetailsClient";
 
-export default function RoadmapDetails() {
-  const roadmap = {
-    id: "1",
-    title: "AI Engineer",
-    description:
-      "Become an AI Engineer from beginner to advanced.",
-    progress: 40,
-    createdAt: new Date().toISOString(),
+interface Props {
+  params: {
+    id: string;
   };
+}
 
+export default function RoadmapDetailsPage({
+  params,
+}: Props) {
   return (
     <div className="space-y-6">
-      <RoadmapOverview roadmap={roadmap} />
+      <RoadmapDetailsClient id={params.id} />
     </div>
   );
 }

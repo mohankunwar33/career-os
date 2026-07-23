@@ -15,3 +15,7 @@ export function loadRoadmaps(): Roadmap[] {
 export function saveRoadmaps(roadmaps: Roadmap[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(roadmaps));
 }
+
+export function getRoadmapById(id: string): Roadmap | undefined {
+  return loadRoadmaps().find((roadmap) => roadmap.id === id);
+}

@@ -38,3 +38,20 @@
 
 - Dynamic roadmap details route
 - Clickable roadmap cards
+
+## v0.2.0
+
+### Added
+
+- Dynamic roadmap details route
+- Clickable roadmap cards
+- Roadmap overview component
+- Progress bar
+
+
+## v0.2.0
+
+### Added
+
+- Load roadmap details from localStorage
+- Roadmap not found state
