@@ -1,6 +1,14 @@
 "use client";
 
-import Modal from "./Modal";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+
 import { Button } from "@/components/ui/button";
 
 interface ConfirmDialogProps {
@@ -25,12 +33,17 @@ export default function ConfirmDialog({
   onCancel,
 }: ConfirmDialogProps) {
   return (
-    <Modal
-      open={open}
-      title={title}
-      onClose={onCancel}
-      footer={
-        <div className="flex justify-end gap-3">
+    <Dialog open={open} onOpenChange={(open) => !open && onCancel()}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+
+          <DialogDescription>
+            {description}
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter className="gap-2">
           <Button
             variant="outline"
             onClick={onCancel}
@@ -46,12 +59,8 @@ export default function ConfirmDialog({
           >
             {confirmText}
           </Button>
-        </div>
-      }
-    >
-      <p className="text-sm text-muted-foreground">
-        {description}
-      </p>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

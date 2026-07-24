@@ -1,15 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 import { Module } from "../types";
 import ModuleForm from "./ModuleForm";
 
 interface EditModuleDialogProps {
-  module: Module;
-  onUpdate: (
+  open: boolean;
+  module: Module | null;
+  onOpenChange: (open: boolean) => void;
+  onUpdateModule: (
     id: string,
     title: string,
     description: string
@@ -17,48 +22,33 @@ interface EditModuleDialogProps {
 }
 
 export default function EditModuleDialog({
+  open,
   module,
-  onUpdate,
+  onOpenChange,
+  onUpdateModule,
 }: EditModuleDialogProps) {
-  const [open, setOpen] = useState(false);
+  if (!module) return null;
 
-  useEffect(() => {
-    setOpen(false);
-  }, [module]);
-
-  function handleSubmit(
-    title: string,
-    description: string
-  ) {
-    onUpdate(module.id, title, description);
-    setOpen(false);
-  }
-
-  if (!open) {
-    return (
-      <Button
-        size="sm"
-        variant="outline"
-        onClick={() => setOpen(true)}
-      >
-        Edit
-      </Button>
-    );
+  function handleSubmit(title: string, description: string) {
+    onUpdateModule(module.id, title, description);
+    onOpenChange(false);
   }
 
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-md">
-      <h3 className="mb-5 text-lg font-semibold">
-        Edit Module
-      </h3>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Edit Module</DialogTitle>
+        </DialogHeader>
 
-      <ModuleForm
-        initialTitle={module.title}
-        initialDescription={module.description}
-        submitLabel="Save Changes"
-        onSubmit={handleSubmit}
-        onCancel={() => setOpen(false)}
-      />
-    </div>
+        <ModuleForm
+          initialTitle={module.title}
+          initialDescription={module.description}
+          submitText="Save Changes"
+          onSubmit={handleSubmit}
+          onCancel={() => onOpenChange(false)}
+        />
+      </DialogContent>
+    </Dialog>
   );
 }
