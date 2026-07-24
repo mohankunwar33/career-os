@@ -1,3 +1,7 @@
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { ProgressBar } from "@/components/ui/ProgressBar";
+
 import { Module } from "../types";
 
 interface ModuleCardProps {
@@ -12,50 +16,43 @@ export default function ModuleCard({
   onDelete,
 }: ModuleCardProps) {
   return (
-    <div className="rounded-lg border bg-white p-5 shadow-sm">
-      <div className="flex items-start justify-between">
-        <div>
+    <Card className="p-6">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1">
           <h3 className="text-lg font-semibold">
             {module.title}
           </h3>
 
-          <p className="mt-1 text-sm text-gray-500">
-            {module.description}
+          <p className="mt-2 text-sm text-muted-foreground">
+            {module.description || "No description provided."}
           </p>
         </div>
 
         <div className="flex gap-2">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => onEdit(module)}
-            className="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
           >
             Edit
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="destructive"
+            size="sm"
             onClick={() => onDelete(module)}
-            className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
           >
             Delete
-          </button>
+          </Button>
         </div>
       </div>
 
-      <div className="mt-5">
-        <div className="mb-2 flex justify-between text-sm">
-          <span>Progress</span>
-          <span>{module.progress}%</span>
-        </div>
-
-        <div className="h-2 rounded-full bg-gray-200">
-          <div
-            className="h-2 rounded-full bg-green-600"
-            style={{
-              width: `${module.progress}%`,
-            }}
-          />
-        </div>
+      <div className="mt-6">
+        <ProgressBar
+          value={module.progress}
+          showLabel
+        />
       </div>
-    </div>
+    </Card>
   );
 }

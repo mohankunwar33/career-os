@@ -1,5 +1,5 @@
-import { Module } from "../types";
 import ModuleCard from "./ModuleCard";
+import { Module } from "../types";
 
 interface ModuleListProps {
   modules: Module[];
@@ -15,8 +15,12 @@ export default function ModuleList({
   if (modules.length === 0) {
     return (
       <div className="rounded-lg border border-dashed p-8 text-center">
-        <p className="text-gray-500">
-          No modules added yet.
+        <h3 className="text-lg font-medium">
+          No modules found
+        </h3>
+
+        <p className="mt-2 text-sm text-muted-foreground">
+          Create your first module to get started.
         </p>
       </div>
     );
