@@ -2,9 +2,15 @@
 
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
+
 import { Module } from "../types";
 import { useModules } from "../useModules";
+
 import ModuleList from "./ModuleList";
+import AddModuleDialog from "./AddModuleDialog";
+import EditModuleDialog from "./EditModuleDialog";
+import DeleteModuleDialog from "./DeleteModuleDialog";
 
 interface ModulesSectionProps {
   roadmapId: string;
@@ -20,92 +26,119 @@ export default function ModulesSection({
     deleteModule,
   } = useModules(roadmapId);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] =
-    useState("");
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  function handleAddModule() {
-    if (!title.trim()) return;
+  const [selectedModule, setSelectedModule] =
+    useState<Module | null>(null);
 
+  function handleCreate(
+    title: string,
+    description: string
+  ) {
     addModule(title, description);
-
-    setTitle("");
-    setDescription("");
+    setAddDialogOpen(false);
   }
 
   function handleEdit(module: Module) {
-    const newTitle = window.prompt(
-      "Module Title",
-      module.title
-    );
-
-    if (!newTitle) return;
-
-    const newDescription = window.prompt(
-      "Module Description",
-      module.description
-    );
-
-    updateModule(
-      module.id,
-      newTitle,
-      newDescription ?? ""
-    );
+    setSelectedModule(module);
+    setEditDialogOpen(true);
   }
 
   function handleDelete(module: Module) {
-    const confirmed = window.confirm(
-      `Delete "${module.title}"?`
-    );
+    setSelectedModule(module);
+    setDeleteDialogOpen(true);
+  }
 
-    if (!confirmed) return;
+  function handleUpdate(
+    id: string,
+    title: string,
+    description: string
+  ) {
+    updateModule(id, title, description);
 
-    deleteModule(module.id);
+    setEditDialogOpen(false);
+    setSelectedModule(null);
+  }
+
+  function handleDeleteConfirm(id: string) {
+    deleteModule(id);
+
+    setDeleteDialogOpen(false);
+    setSelectedModule(null);
+  }
+
+  function closeEditDialog() {
+    setEditDialogOpen(false);
+    setSelectedModule(null);
+  }
+
+  function closeDeleteDialog() {
+    setDeleteDialogOpen(false);
+    setSelectedModule(null);
   }
 
   return (
-    <div className="mt-8 rounded-xl border bg-white p-6 shadow-sm">
+    <section className="rounded-xl border bg-background p-6 shadow-sm">
+
       <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">
-          Modules
-        </h2>
-      </div>
 
-      <div className="space-y-3">
-        <input
-          className="w-full rounded border p-2"
-          placeholder="Module title"
-          value={title}
-          onChange={(e) =>
-            setTitle(e.target.value)
-          }
-        />
+        <div>
+          <h2 className="text-2xl font-bold">
+            Modules
+          </h2>
 
-        <textarea
-          className="w-full rounded border p-2"
-          placeholder="Description"
-          rows={3}
-          value={description}
-          onChange={(e) =>
-            setDescription(e.target.value)
-          }
-        />
+          <p className="text-sm text-muted-foreground">
+            Organize your roadmap into learning modules.
+          </p>
+        </div>
 
-        <button
-          onClick={handleAddModule}
-          className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+        <Button
+          onClick={() => setAddDialogOpen(true)}
         >
-          Add Module
-        </button>
+          + Add Module
+        </Button>
+
       </div>
 
-      <div className="mt-8">
-        <ModuleList
-          modules={modules}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-      </div>
-    </div>
+      <ModuleList
+        modules={modules}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+
+      <AddModuleDialog
+        open={addDialogOpen}
+        onOpenChange={setAddDialogOpen}
+        onAddModule={handleCreate}
+      />
+
+      <EditModuleDialog
+        open={editDialogOpen}
+        module={selectedModule}
+        onOpenChange={(open) => {
+          if (!open) {
+            closeEditDialog();
+          } else {
+            setEditDialogOpen(true);
+          }
+        }}
+        onUpdateModule={handleUpdate}
+      />
+
+      <DeleteModuleDialog
+        open={deleteDialogOpen}
+        module={selectedModule}
+        onOpenChange={(open) => {
+          if (!open) {
+            closeDeleteDialog();
+          } else {
+            setDeleteDialogOpen(true);
+          }
+        }}
+        onDeleteModule={handleDeleteConfirm}
+      />
+    </section>
   );
 }
