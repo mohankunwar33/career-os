@@ -48,10 +48,27 @@
 - Roadmap overview component
 - Progress bar
 
-
 ## v0.2.0
 
 ### Added
 
 - Load roadmap details from localStorage
 - Roadmap not found state
+
+
+# Changelog
+
+## v0.3.0 (In Progress)
+
+### Added
+
+- Module feature foundation
+- Module storage
+- Module types
+- Module custom hook
+
+### Planned
+
+- UI Foundation
+- Module CRUD UI
+- Subject Management
